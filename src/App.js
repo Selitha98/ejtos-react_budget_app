@@ -1,47 +1,60 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Budget from "./components/Budget";
+import Remaining from "./components/Remaining";
+import ExpenseTotal from "./components/ExpenseTotal";
+import ExpenseList from "./components/ExpenseList";
+import AllocationForm from "./components/AllocationForm";
 
-//Code to import Budget.js
-import Budget from './components/Budget';
-
-// Add code to import the other components here under
-
-
-import { AppProvider } from './context/AppContext';
+import { AppProvider } from "./context/AppContext";
 const App = () => {
-    return (
-        <AppProvider>
-            <div className='container'>
-                <h1 className='mt-3'>Company's Budget Allocation</h1>
-                    <div className='row mt-3'>
-                        {
-                            /* Add Budget component here */
-                        }        
 
-                        {
-                            /* Add Remaining component here*/
-                        }        
+  const [currency, setCurrency] = useState('');
 
-                        {
-                            /* Add ExpenseTotal component here */
-                        }        
-                       
-                        {
-                            /* Add ExpenseList component here */
-                        }         
+  const handleCurrencyChange = (event) => {
+    setCurrency(event.target.value);
+  };
+  return (
+    <AppProvider>
+      <div className="container">
+        <h1 className="mt-3">Company's Budget Allocation</h1>
 
-                        {
-                            /* Add ExpenseItem component here */
-                        }        
-
-                        {
-                            /* Add AllocationForm component here under */
-                        }        
-
-                </div>
-            </div>
-        </AppProvider>
-    );
+        <div className="row mt-3">
+          <div className="col-sm">
+            <Budget currency={currency}/>
+          </div>
+          <div className="col-sm">
+            <Remaining currency={currency}/>
+          </div>
+          <div className="col-sm">
+            <ExpenseTotal currency={currency}/>
+          </div>
+          <div className="col-sm">
+            <select class="form-select" aria-label="Default select example" onChange={handleCurrencyChange}
+        value={currency}>
+              <option selected>Choose the Currency</option>
+              <option value="$">$ Dollar</option>
+              <option value="£">£ Pound</option>
+              <option value="€">€ Euro</option>
+              <option value="₹">₹ Ruppee</option>
+            </select>
+          </div>
+        </div>
+        <h3 className="mt-3">Allocation</h3>
+        <div className="row ">
+          <div className="col-sm">
+            <ExpenseList currency={currency}/>
+          </div>
+        </div>
+        <h3 className="mt-3">Change allocation</h3>
+        <div className="row mt-3">
+          <div className="col-sm">
+            <AllocationForm  currency={currency}/>
+          </div>
+        </div>
+      </div>
+    </AppProvider>
+  );
 };
 export default App;
